@@ -74,8 +74,9 @@ app.post('/webhook', (req, res) => {
             const db = client.db();
             const collection = db.collection('meetings');
             response = {message: 'Authorized request to Zoom Webhook sample.', status: 200}
-            console.log(response.message)
+            // console.log(response.message)
             const {event, payload} = req.body;
+            console.log("Payload : ", payload)
             collection.insertOne({event, payload}, (err) => {
                 if (err) {
                     console.error('Error saving Zoom webhook data:', err);
@@ -84,7 +85,7 @@ app.post('/webhook', (req, res) => {
                     console.log('Zoom webhook data saved to MongoDB');
                     res.status(200).send('OK');
                 }
-            }).then(r => console.log("Document Saved")).catch(err => console.log(err));
+            }).then(r => console.log(r.acknowledged)).catch(err => console.log(err));
 
             res.status(response.status)
             res.json(response)
