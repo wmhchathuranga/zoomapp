@@ -105,7 +105,7 @@ app.post('/webhook', (req, res) => {
 app.get('/getParticipants/:meetingId', (req, res) => {
     const meetingId = req.params.meetingId
     const db = client.db();
-    const collection = db.collection('ids');
+    const collection = db.collection('meetings');
     console.log(meetingId);
 
 
