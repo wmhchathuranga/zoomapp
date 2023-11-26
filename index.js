@@ -31,6 +31,8 @@ const app = express()
 const port = process.env.PORT || 4000
 
 app.use(bodyParser.json())
+const cors = require('cors');
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.status(200)
