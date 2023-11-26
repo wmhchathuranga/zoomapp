@@ -109,7 +109,6 @@ app.get('/getParticipants/:meetingId', (req, res) => {
     const db = client.db();
     const collection = db.collection('ids');
     console.log(meetingId);
-
     collection.insertOne({meetingId}, (err) => {
         if (err) {
             console.error('Error saving Zoom webhook data:', err);
@@ -121,8 +120,9 @@ app.get('/getParticipants/:meetingId', (req, res) => {
     }).then(() => {
             res.status(200).send('OK');
         }
-    ).catch(err => res.status(500).send('Internal Server Error');
-)
+    ).catch(err => {
+        res.status(500).send('Internal Server Error');
+    });
 
     // collection.find().toArray((err, documents) => {
     //     if (err) throw err;
