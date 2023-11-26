@@ -8,9 +8,7 @@ const uri = process.env.MONGODB_URI;
 
 const client = new MongoClient(uri, {
     serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
+        version: ServerApiVersion.v1, strict: true, deprecationErrors: true,
     }
 });
 
@@ -113,12 +111,7 @@ app.get('/getParticipants/:meetingId', (req, res) => {
 
     collection.find({
         "payload.object.id": meetingId
-    }).toArray((err, documents) => {
-        if (err) throw err;
-
-        console.log(documents);
-
-    }).then((err, documents) => {
+    }).toArray().then(documents => {
         res.status(200).send(documents);
     }).catch(err => {
         res.status(500).send("Internal Server Error");
