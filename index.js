@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const crypto = require('crypto')
 // mongodb connection
 const {MongoClient, ServerApiVersion} = require('mongodb');
+const {response} = require("express");
 const uri = process.env.MONGODB_URI;
 
 const client = new MongoClient(uri, {
@@ -112,7 +113,8 @@ app.get('/getParticipants/:meetingId', (req, res) => {
     collection.find({
         "payload.object.id": meetingId
     }).toArray().then(documents => {
-        res.status(200).send(documents);
+        const participantsArray = documents.map(doc => doc.payload.object.participant);
+        res.status(200).send(participantsArray);
     }).catch(err => {
         res.status(500).send("Internal Server Error");
     });
