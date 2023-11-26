@@ -109,27 +109,20 @@ app.get('/getParticipants/:meetingId', (req, res) => {
     const db = client.db();
     const collection = db.collection('ids');
     console.log(meetingId);
-    collection.insertOne({meetingId}, (err) => {
-        if (err) {
-            console.error('Error saving Zoom webhook data:', err);
-            res.status(500).send('Internal Server Error');
-        } else {
-            console.log('Zoom webhook data saved to MongoDB');
-            res.status(200).send('OK');
-        }
-    }).then(() => {
-            res.status(200).send('OK');
-        }
-    ).catch(err => {
-        res.status(500).send('Internal Server Error');
-    });
 
-    // collection.find().toArray((err, documents) => {
-    //     if (err) throw err;
-    //
-    //     console.log(documents);
-    //
-    // });
+
+    collection.find({
+        "payload.object.id": meetingId
+    }).toArray((err, documents) => {
+        if (err) throw err;
+
+        console.log(documents);
+
+    }).then((err, documents) => {
+        res.status(200).send(documents);
+    }).catch(err => {
+        res.status(500).send("Internal Server Error");
+    });
 })
 app.listen(4000, () => {
     console.log(`Server is running on port ${port}`)
