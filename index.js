@@ -108,6 +108,7 @@ app.get('/getParticipants/:meetingId', (req, res) => {
     const meetingId = req.params.meetingId
     const db = client.db();
     const collection = db.collection('meetings');
+    console.log(meetingId);
     collection.find({
         "payload.object.id": meetingId
     }).toArray((err, result) => {
